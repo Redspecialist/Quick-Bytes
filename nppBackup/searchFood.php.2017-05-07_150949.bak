@@ -1,0 +1,66 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Brendan
+ * Date: 4/17/2017
+ * Time: 3:18 PM
+ */
+require_once("support.php");
+$body = "";
+
+$body = <<< EOF
+<form action="listResults.php" method="get">
+    <table>
+        <tr>
+            <td colspan="2">
+                <input type="text" name="resturaunt" placeholder="Resturaunt Name">
+            </td>
+            <td>
+                <label><input type="checkbox" name="takeout">Has Takeout</label>
+            </td>
+            <td rowspan="2">
+               Type of Food:
+            </td>
+            <td rowspan="2">
+                <select multiple name="typeOfFood[]" required>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Burger">Burgers</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Pizza">Pizza</option>
+                    <option value="Icecream">Icecream</option>
+                    <option value="Sandwiches">Sandwiches</option>
+                    <option value="Falafel">Falafel</option>
+                    <option value="Vietnamese">Vietnamese</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label><input type="checkbox" name="open">Currently Open</label>
+            </td>
+            <td colspan="2">
+                Sort by:
+                <select name="sortby" colspan>
+                    <option value="rating">Rating</option>
+                    <option value="open">Opening Time</option>
+                    <option value="close">Closing Time</option>
+                    <option value="name">Name</option>
+                    <option value="address">Proximity</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <input type="submit" value="Search For Food">
+            </td>
+        </tr>
+    </table>
+
+</form>
+EOF;
+
+echo wrapit("Search Local Food Options",$body);
+
+?>

@@ -1,0 +1,174 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Brendan
+ * Date: 4/17/2017
+ * Time: 3:18 PM
+ */
+require_once("support.php");
+$body = "";
+
+$body = <<< EOF
+<form action="listResults.php" method="get">
+    <table>
+        <tr>
+            <td colspan="2">
+                <input type="text" name="resturaunt" placeholder="Resturaunt Name">
+            </td>
+            <td>
+                <label><input type="checkbox" name="takeout">Has Takeout</label>
+            </td>
+            <td rowspan="2">
+               Type of Food:
+            </td>
+            <td rowspan="2">
+                <select multiple name="typeOfFood[]" required>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Burger">Burgers</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Pizza">Pizza</option>
+                    <option value="Icecream">Icecream</option>
+                    <option value="Sandwiches">Sandwiches</option>
+                    <option value="Falafel">Falafel</option>
+                    <option value="Vietnamese">Vietnamese</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label><input type="checkbox" name="open">Currently Open</label>
+            </td>
+            <td colspan="2">
+                Sort by:
+                <select name="sortby" colspan>
+                    <option value="rating">Rating</option>
+                    <option value="open">Opening Time</option>
+                    <option value="close">Closing Time</option>
+                    <option value="name">Name</option>
+                    <option value="address">Proximity</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <input type="submit" value="Search For Food">
+            </td>
+        </tr>
+    </table>
+
+</form>
+EOF;
+
+//echo wrapit("Search Local Food Options",$body);
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Search Foods</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/animate.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/nivo-lightbox.css">
+	<link rel="stylesheet" href="css/nivo_themes/default/default.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<section id="contact" class="parallax-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10 col-sm-12 text-center">
+					<h1 class="heading">Search Database</h1>
+					<hr>
+				</div>
+				<div class="col-md-offset-1 col-md-10 col-sm-12 wow fadeIn" data-wow-delay="0.9s">
+					<form action="listResults.php" method="get">
+						<table>
+							<tr>
+								<td colspan="2">
+									<input type="text" name="resturaunt" placeholder="Resturaunt Name">
+								</td>
+								<td>
+									<label><input type="checkbox" name="takeout">Has Takeout</label>
+								</td>
+								<td rowspan="2">
+								   Type of Food:
+								</td>
+								<td rowspan="2">
+									<select multiple name="typeOfFood[]" required>
+										<option value="Mexican">Mexican</option>
+										<option value="Chinese">Chinese</option>
+										<option value="Burger">Burgers</option>
+										<option value="Indian">Indian</option>
+										<option value="Mediterranean">Mediterranean</option>
+										<option value="Pizza">Pizza</option>
+										<option value="Icecream">Icecream</option>
+										<option value="Sandwiches">Sandwiches</option>
+										<option value="Falafel">Falafel</option>
+										<option value="Vietnamese">Vietnamese</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><input type="checkbox" name="open">Currently Open</label>
+								</td>
+								<td colspan="2">
+									Sort by:
+									<select name="sortby" colspan>
+										<option value="rating">Rating</option>
+										<option value="open">Opening Time</option>
+										<option value="close">Closing Time</option>
+										<option value="name">Name</option>
+										<option value="address">Proximity</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="5">
+									<input type="submit" value="Search For Food">
+								</td>
+							</tr>
+						</table>
+
+					</form>
+					
+					
+					
+					
+					
+					
+					
+					
+					<form action="#" method="post">
+						<div class="col-md-6 col-sm-6">
+							<input type="text" name="resturaunt" placeholder="Restauraunt Name" class="form-control">
+							
+					  </div>
+						<div class="col-md-6 col-sm-6">
+							<p><input type="checkbox" name="takeout">Has Takeout</p>
+							<input name="email" type="email" class="form-control" id="email" placeholder="Email">
+					  </div>
+						<div class="col-md-12 col-sm-12">
+							<textarea name="message" rows="8" class="form-control" id="message" placeholder="Message"></textarea>
+						</div>
+						<div class="col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6">
+							<input name="submit" type="submit" class="form-control" id="submit" value="make a reservation">
+						</div>
+					</form>
+				</div>
+				<div class="col-md-2 col-sm-1"></div>
+			</div>
+		</div>
+	</section>
+</body>

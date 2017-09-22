@@ -1,0 +1,22 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Brendan
+ * Date: 5/7/2017
+ * Time: 1:23 AM
+ */
+require_once("support.php");
+session_start();
+session_destroy();
+$body = <<<EOF
+    <form action="./searchFood.php" method="get">
+        <input type="submit" value="Search Database">
+    </form>
+    <form action="./login.php" method="get">
+        <input type="submit" value="Login">
+    </form>
+EOF;
+
+echo wrapit("Placeholder",$body);
+
+

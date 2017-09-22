@@ -1,0 +1,151 @@
+<?php
+require_once "support.php";
+session_start();
+$email = $_SESSION["email"];
+
+$restaurantOldValues = selectRestaurant("email=\"".$email."\"")[0];
+$imageSrc = '<img src="data:image/jpeg;base64,'.base64_encode($restaurantOldValues->picture).'" style="width:400px;height:228px;">';
+$phonePart1 = substr($restaurantOldValues->phone,0,3);
+$phonePart2 = substr($restaurantOldValues->phone,3,3);
+$phonePart3 = substr($restaurantOldValues->phone,6,4);
+$yesOrder = "";
+$noOrder = "checked";
+if($restaurantOldValues->takeout){
+    $noOrder = "";
+    $yesOrder = "checked";
+}
+
+if(isset($_POST['submit1'])) {
+
+    $newName = $_POST["name"];
+    $newOpen = $_POST["open"];
+    $newClose = $_POST["close"];
+    $newAddress =$_POST["address_line"];
+    $newPhone = $_POST["phone1"].$_POST["phone2"].$_POST["phone3"];
+    $newFood = $_POST["food"];
+    $newSynopsis = $_POST["synopsis"];
+    $newPassword = $_POST["password"];
+    $newOrder = $_POST["orderAhead"] == "yes";
+    $edits = array("name" => $newName, "address" => $newAddress, "phone" => $newPhone, "takeout" => $newOrder,
+     "food" => $newFood, "open" => $newOpen, "close" => $newClose, "synopsis" => $newSynopsis, "password"=> $newPassword);
+    echo $newPassword;
+
+    if($_FILES["restaurant_Picture"]["size"] != 0){
+        $edits["pictures"] = file_get_contents($_FILES["restaurant_Picture"]["tmp_name"]);
+    }
+
+
+    updateRestaurant($email, $edits);
+
+    header('Location: viewPageRestaurant.php');
+
+}
+else {
+
+
+$body = <<<EOPAGE
+
+<script type="text/javascript" src="validate.js"></script>
+<form action="{$_SERVER["PHP_SELF"]}" enctype="multipart/form-data" onsubmit="return validate();" method="post">
+
+
+    <h1><Strong>Update Restaurant Information.</Strong></h1>
+    
+    Restaurant Owner: $email
+    <br><br>
+    
+    Password: <input type="password" name="password" id="password" value=$restaurantOldValues->password required maxlength=64>
+    <br><br>
+    Password Confirmation: <input type="password" id="confirmation" value=$restaurantOldValues->password required maxlength=64>
+    <br><br>
+    
+    Restaurant name: <input type="text" name="name" value="$restaurantOldValues->name" maxlength=50 required>
+    <br><br>
+
+    Hours: <input type="text" name="open" id="open" value="$restaurantOldValues->open" maxlength=5 size=4 required> - <input type="text" name="close" id="close" size=4 value="$restaurantOldValues->close" maxlength=5 required>
+    <br><br>
+
+    Pictures: <input type="file" name="restaurant_Picture"><br>
+    $imageSrc
+    
+    <br><br>
+
+    Address: <br>
+    <input type="text" name="address_line" size=50 value="$restaurantOldValues->address" required><br><br>
+    <br><br>
+
+    Phone: <input type="text" name="phone1" id="phone1" value="$phonePart1" size=3 maxlength=3 required> - <input type="text" name="phone2" id="phone2" size=3 maxlength=3 value="$phonePart2" required> - <input type="text" name="phone3" id="phone3" size=4 value="$phonePart3" maxlength=4 required>
+    <br><br>
+
+    Do You provide online or call in ordering? 
+    <label><input type="radio" name="orderAhead" id="yes" value="yes" $yesOrder>Yes</input></label>
+    <label><input type="radio" name="orderAhead" id="no" value="no" $noOrder>No</input></label>
+    <br><br>
+
+
+    Food Type: 
+    <select name="food">
+EOPAGE;
+    $options = <<<EOPAGE
+        <option value="mexican">Mexican</option>
+        <option value="chinese">Chinese</option>
+        <option value="burger">Burgers</option>
+        <option value="indian">Indian</option>
+        <option value="Mediterranean">Mediterranean</option>
+        <option value="pizza">Pizza</option>
+        <option value="icecream">Icecream</option>
+        <option value="sandwiches">Sandwiches</option>
+        <option value="falafel">Falafel</option>
+        <option value="vietnamese">Vietnamese</option>
+EOPAGE;
+
+    $foodType =strtolower($restaurantOldValues->food);
+    $body .= implode("\"$restaurantOldValues->food\" selected",explode("\"$foodType\"",$options));
+    $body .= <<<EOPAGE
+    </select>
+    <br><br>
+
+    Synopsis (5000 character Maximum)<br> <textarea maxlength=5000 name="synopsis" rows="4" cols="100">$restaurantOldValues->synopsis</textarea>
+    <br><br>
+
+    <button type="submit" name="submit1" value="Login">Submit Changes</button>
+    <a href="./index.php"><input type="button" value="Return to Main Page"/></a>
+</form>
+<form action="./deleted.php" method="post">
+    <input type="submit" value="Delete This Record">
+</form>
+<br>
+EOPAGE;
+
+
+    //echo wrapit("Update Information",$body);
+
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Setup Account</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<section id="contact">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10 col-sm-12 text-center">
+					<h1 class="heading">Welcome!</h1>
+					<hr>
+				</div>
+				<div class="col-md-offset-1 col-md-10 col-sm-12">
+					<div class="col-md-3 col-sm-3"></div>
+					<div class="col-md-6 col-sm-6">
+						<?php echo $body ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>

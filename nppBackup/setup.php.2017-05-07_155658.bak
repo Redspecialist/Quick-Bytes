@@ -1,0 +1,129 @@
+<?php
+require_once "support.php";
+
+$host = "localhost";
+$user = "res_user";
+$dbpassword = "res_pass";
+$database = "restaurant_db";
+$res_tb = "restaurants";
+$review_tb = "reviews";
+
+if(isset($_POST['submit1'])) {
+    session_start();
+    $_SESSION["email"] = $_POST["email"];
+    $_SESSION["password"] = $_POST["password"];
+
+
+    $newName = $_POST["name"];
+    $newOpen = $_POST["open"];
+    $newClose = $_POST["close"];
+    $newEmail = $_POST["email"];
+    $newAddress = $_POST["address_line1"];
+    $newPhone = $_POST["phone1"].$_POST["phone2"].$_POST["phone3"];
+    $newFood = $_POST["food"];
+    $newSynopsis = $_POST["synopsis"];
+    $newPassword = $_POST["password"];
+    $order = $_POST["orderAhead"] == "yes";
+
+    $pictureData = file_get_contents($_FILES["restaurant_Picture"]["tmp_name"]);
+    addRestaurant($newName, $newAddress, $newPhone, $newEmail, $pictureData, $newFood, $newOpen, $newClose, $newSynopsis,$newPassword, $order);
+
+    header('Location: viewPageRestaurant.php');
+}
+else {
+
+
+    $body = <<<EOPAGE
+    <script type="text/javascript" src="validate.js"></script>
+<form action="{$_SERVER["PHP_SELF"]}" enctype="multipart/form-data"  onsubmit="return validate();" method="post">
+
+
+    <h1><Strong>Welcome! Please fill out your restaurant information!</Strong></h1>
+    
+    Email: <input type="email" name="email" required maxlength=200>
+    <br><br>
+    
+    Password: <input type="password" name="password" id="password" required maxlength=64>
+    <br><br>
+    Password Confirmation: <input type="password" id="confirmation" required maxlength=64>
+    <br><br>
+    
+    Restaurant name: <input type="text" name="name" maxlength=50 required>
+    <br><br>
+
+    Hours: <input type="text" name="open" id="open" maxlength=5 size=4 required> - <input type="text" name="close" id="close" size=4 maxlength=5 required>
+    <br><br>
+
+    Pictures: <input type="file" name="restaurant_Picture" required>
+    
+    <br><br>
+
+    Address: <br>
+    <input type="text" name="address_line1" size=50 required><br><br>
+    <br><br>
+
+    Phone: <input type="text" name="phone1" id="phone1" size=3 maxlength=3 required> - <input type="text" name="phone2" id="phone2" size=3 maxlength=3 required> - <input type="text" name="phone3" id="phone3" size=4 maxlength=4 required>
+    <br><br>
+    
+    Do You provide online or phone ordering? 
+    <label><input type="radio" name="orderAhead" id="yes" value="yes">Yes</input></label>
+    <label><input type="radio" name="orderAhead" id="no" value="no">No</input></label>
+    <br><br>
+    
+    Food Type: 
+    <select name="food">
+        <option value="Mexican">Mexican</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Burger">Burgers</option>
+        <option value="Indian">Indian</option>
+        <option value="Mediterranean">Mediterranean</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Icecream">Icecream</option>
+        <option value="Sandwiches">Sandwiches</option>
+        <option value="Falafel">Falafel</option>
+        <option value="Vietnamese">Vietnamese</option>
+    </select>
+    <br><br>
+
+    Synopsis (5000 character Maximum)<br> <textarea maxlength=5000 name="synopsis" rows="4" cols="100"></textarea>
+    <br><br>
+
+    <button type="submit" name="submit1" value="Login">Commit Changes</button>
+    <a href="./login.php"><input type="button" value="Return to Login"/></a>
+    <a href="./index.php"><input type="button" value="Return to Main Page"/></a>
+</form>
+
+EOPAGE;
+
+    //echo wrapit("Setup Account",$body);
+
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Setup Account</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<section id="contact">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10 col-sm-12 text-center">
+					<h1 class="heading">Login</h1>
+					<hr>
+				</div>
+				<div class="col-md-offset-1 col-md-10 col-sm-12">
+					<div class="col-md-4 col-sm-4"></div>
+					<div class="col-md-4 col-sm-4">
+						<?php echo $body ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>

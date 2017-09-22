@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Quick Bytes</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/animate.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/nivo-lightbox.css">
+	<link rel="stylesheet" href="css/nivo_themes/default/default.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+</head>
+
+
+<body>
+<?php
+	/**
+	 * Created by PhpStorm.
+	 * User: Brendan
+	 * Date: 5/7/2017
+	 * Time: 1:23 AM
+	 */
+	require_once("support.php");
+	session_start();
+	session_destroy();
+
+?>
+
+
+<!-- home section -->
+<section id="home" class="parallax-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<h1>QUICK BYTES</h1>
+				<h2>Some Slogan here</h2>
+				<form action="./searchFood.php" method="get" name="searchForm">
+					<a class="smoothScroll btn btn-default" onclick="document.forms['searchForm'].submit(); return false;">Search Database</a>
+					<!--input type="submit" value="Search Database"-->
+				</form>
+				<form action="./login.php" method="get" name="loginForm">
+					<a href="#" class="smoothScroll btn btn-default" onclick="document.forms['searchForm'].submit(); return false;">Login</a>
+					<!--input type="submit" value="Login"-->
+				</form>
+				
+			</div>
+		</div>
+	</div>		
+</section>

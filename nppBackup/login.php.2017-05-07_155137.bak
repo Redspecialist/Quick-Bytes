@@ -1,0 +1,80 @@
+<?php
+require_once "support.php";
+if (session_status() != PHP_SESSION_NONE) {
+    session_destroy();
+}
+$bottompart = "";
+
+
+if(isset($_POST['submit1'])){
+    $x = $_POST["username"];
+    $sort = null;
+    $check = selectRestaurant("email=\"".$x."\"");
+
+    if(count($check)>0) {
+        if($check[0]->password == $_POST["password"]);
+        session_start();
+        $_SESSION["email"] = $_POST["username"];
+        header('Location: ./changeinfo.php');
+    }
+    else{
+        $bottompart = "<h2>A record with the following password username combination was not found</h2>";
+    }
+}
+
+$body = <<<EOPAGE
+		<form action="{$_SERVER["PHP_SELF"]}" method="post">
+				
+
+            Email: <input type="text" name="username">
+            <br><br>
+
+            Password: <input type="text" name="password">
+            <br><br><br>
+            
+            <button type="submit" name = "submit1" value="Login">Submit</button>
+            <a href="./index.php"><input type="button" value="Return to Main Page"/></a>
+            <br><br>
+            <a href="./setup.php">Set Up New Account</a>
+            $bottompart
+			</form>
+EOPAGE;
+
+//echo wrapit("Login Service",$body);
+
+?>
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Brendan
+ * Date: 4/17/2017
+ * Time: 3:18 PM
+ */
+
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Login Service</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<section id="contact">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10 col-sm-12 text-center">
+					<h1 class="heading">Search Database</h1>
+					<hr>
+				</div>
+				<div class="col-md-offset-1 col-md-10 col-sm-12">
+					<?php echo $body ?>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
